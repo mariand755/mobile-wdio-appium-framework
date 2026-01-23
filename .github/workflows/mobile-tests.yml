@@ -1,9 +1,8 @@
 name: Mobile Tests (Sauce Labs)
 
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
+  workflow_dispatch:
+ 
 
 jobs:
   sauce-tests:
