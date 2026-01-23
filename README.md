@@ -6,7 +6,7 @@ A production‑grade mobile automation framework built with WebdriverIO v9, Appi
 * ☁️ Sauce Labs cloud execution (Android + iOS)
 * 🧪 Spec / Suite / Tag‑based execution (Smoke, Regression, etc.)
 * 📊 Allure reporting (local & Docker)
-* 🔁 CI‑ready (GitHub Actions friendly)
+* 🔁 CI‑ready (GitHub Actions friendly) - WIP
 
 This framework is designed to mirror real‑world mobile QE setups:
 
@@ -138,7 +138,7 @@ Docker (no Java required)
 
 ---
 
-## 🔁 CI / GitHub Actions (Next Steps)
+## 🔁 CI / GitHub Actions (Next Steps) - WIP
 Planned:
 * ✅ PR gate → **Smoke suite only**
 * 🏷️ Tag‑based execution
@@ -150,7 +150,7 @@ Planned:
 ## 🚀 Why This Framework
 This repo is intentionally structured to reflect SDET best practices:
 * Clean config separation (shared vs platform‑specific)
-* CI‑first mindset
+* CI‑first mindset - WIP
 * Scalable test organization
 * Real device + emulator support
 
