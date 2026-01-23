@@ -37,8 +37,11 @@ mobile-wdio-appium-framework/
 │   ├── testdata/           # Test data
 │   └── tests/
 │       ├── smoke/          # Smoke test specs
-│       ├── regression/     # (future)
-│       └── e2e/            # (future)
+│       ├── regression/     # (will have extensive) regression specs
+│       └── e2e/            # future: end-to-end specs      
+├── reports/                # Allure reports output (ignore in git)
+├── .gitignore
+│    
 ├── .env.example
 ├── package.json
 ├── tsconfig.json
