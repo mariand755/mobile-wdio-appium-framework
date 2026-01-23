@@ -15,7 +15,7 @@ pnpm-debug.log*
 # Docker / cross-platform isolation
 # --------------------------------------------------
 docker/.workdir/
-
+run.log
 # --------------------------------------------------
 # Test artifacts / reports
 # --------------------------------------------------
