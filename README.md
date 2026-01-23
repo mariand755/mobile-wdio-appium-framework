@@ -91,7 +91,9 @@ Android – Local (Docker + Emulator)
 
 ---
 
-### Sauce Labs – Cloud
+## Sauce Labs – Cloud 
+> 💡 Tip: During development or free-trial usage, running a single spec is recommended to conserve Sauce minutes.
+
 Run all tests
 * `npm run test:sauce`
 > Runs all tests on both Android and iOS in Sauce Labs.
@@ -106,14 +108,14 @@ Run single spec
 
 Run by suite
 * `npm run test:sauce:suite -- smoke`
-> Runs a specific suite (smoke, regression, e2e) on Sauce Labs.
+> Runs a specific suite (smoke, regression) on Sauce Labs.
 
 ---
 
 ## 🧪 Test Organization
 * Smoke → PR gate / fast feedback
 * Regression → nightly / scheduled
-* E2E → release validation
+* E2E → release validation (future)
 Suites are defined centrally in `wdio.shared.conf.ts`.
 
 ---
