@@ -1,0 +1,64 @@
+name: Mobile Tests (Sauce Labs)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  sauce-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    env:
+      SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+      SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+      SAUCE_ANDROID_APP: ${{ secrets.SAUCE_ANDROID_APP }}
+      SAUCE_IOS_APP: ${{ secrets.SAUCE_IOS_APP }}
+      # Optional device overrides if you want them fixed in CI:
+      # SAUCE_ANDROID_DEVICE: "Google Pixel 7 GoogleAPI Emulator"
+      # SAUCE_ANDROID_PLATFORM_VERSION: "14"
+      # SAUCE_IOS_DEVICE: "iPhone 14 Simulator"
+      # SAUCE_IOS_PLATFORM_VERSION: "16"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Sauce Labs tests
+        run: npm run test:sauce
+
+      # Always try to generate an Allure HTML report, even if tests fail
+      - name: Setup Java (for Allure)
+        if: always()
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Generate Allure report
+        if: always()
+        run: npm run report:generate
+
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results
+
+      - name: Upload Allure HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: reports/allure-report

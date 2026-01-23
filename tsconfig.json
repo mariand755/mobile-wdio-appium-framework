@@ -1,0 +1,37 @@
+{
+  // This TypeScript configuration enables strict, predictable typing across the framework so that
+  // selectors, screen objects, and helper utilities are safer to refactor and easier to maintain.
+  // We keep module resolution aligned with modern Node tooling while still compiling cleanly for
+  // WDIO execution. If you add path aliases later, this is where you’d define them.
+  "compilerOptions": {
+    // Targets modern JavaScript features that work well with Node 18 (our Docker/CI baseline).
+    "target": "ES2022",
+
+    // Uses modern module syntax. WDIO handles TS via ts-node, so we don’t need to emit JS here.
+    "module": "ESNext",
+
+    // Ensures imports resolve predictably in Node-like environments.
+    "moduleResolution": "Bundler",
+
+    // Enables strict typing (highly recommended for automation frameworks).
+    "strict": true,
+
+    // Helpful flags to avoid common TS pitfalls in test code.
+    "noImplicitAny": true,
+    "noUncheckedIndexedAccess": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // Allows clean imports from CommonJS packages where needed.
+    "esModuleInterop": true,
+
+    // WDIO uses global `browser` and `$` helpers, but we still keep TS aware of Node types.
+    "types": ["node"],
+
+    // We run TS directly; no output directory is required in this phase.
+    "noEmit": true,
+
+    // Speeds up builds and keeps the config friendly for iterative development.
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts"]
+}

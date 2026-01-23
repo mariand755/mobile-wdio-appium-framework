@@ -1,0 +1,56 @@
+{
+  "name": "mobile-wdio-appium-framework",
+  "version": "0.1.0",
+  "private": true,
+  "description": "WDIO v9 + Appium v2 + TypeScript + Mocha + Allure + Docker + Sauce Labs",
+  "engines": {
+    "node": ">=20 <21"
+  },
+ "scripts": {
+  "clean": "rimraf reports allure-results .wdio-cache",
+
+  "test:android:local": "wdio run ./src/config/wdio.android.local.conf.ts",
+  "test:android:local:spec": "wdio run ./src/config/wdio.android.local.conf.ts --spec",
+  "test:android:local:suite": "wdio run ./src/config/wdio.android.local.conf.ts --suite",
+  "test:android:local:smoke": "wdio run ./src/config/wdio.android.local.conf.ts --suite smoke",
+  "test:android:local:smoke:specs": "wdio run ./src/config/wdio.android.local.conf.ts --spec ./src/tests/smoke/**/*.spec.ts",
+
+  "test:sauce": "wdio run ./src/config/wdio.sauce.conf.ts",
+  "test:sauce:spec": "wdio run ./src/config/wdio.sauce.conf.ts --spec",
+  "test:sauce:suite": "wdio run ./src/config/wdio.sauce.conf.ts --suite",
+  "test:sauce:smoke": "wdio run ./src/config/wdio.sauce.conf.ts --suite smoke",
+  "test:sauce:smoke:specs": "wdio run ./src/config/wdio.sauce.conf.ts --spec ./src/tests/smoke/**/*.spec.ts",
+
+  "report:generate": "allure generate ./allure-results --clean -o ./reports/allure-report",
+  "report:open": "allure open ./reports/allure-report",
+
+  "docker:android:local": "docker build -t wdio-appium-android-local -f docker/Dockerfile . && docker run --name wdio-android-local --rm -it -e ADB_SERVER_SOCKET=tcp:host.docker.internal:5037 -e ANDROID_ADB_SERVER_PORT=5037 -v \"$PWD\":/work -v \"$PWD/docker/.workdir\":/work/docker/.workdir -w /work wdio-appium-android-local bash -lc \"bash ./docker/run-android-local.sh\"",
+
+  "docker:report:generate": "docker build -t wdio-allure-report -f docker/Dockerfile.report . && docker run --rm -it -v \"$PWD\":/work -w /work wdio-allure-report bash -lc \"allure generate ./allure-results --clean -o ./reports/allure-report\"",
+  "docker:report:open": "docker build -t wdio-allure-report -f docker/Dockerfile.report . && docker run --rm -it -p 5050:5050 -v \"$PWD\":/work -w /work wdio-allure-report bash -lc \"allure open -h 0.0.0.0 -p 5050 ./reports/allure-report\"",
+
+  "lint": "eslint . --ext .ts",
+  "format": "prettier . --write"
+  },
+
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  },
+
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "webdriverio": "^9.0.0",
+    "@wdio/types": "^9.0.0",
+    "@wdio/allure-reporter": "^9.0.0",
+    "@wdio/cli": "^9.0.0",
+    "@wdio/local-runner": "^9.0.0",
+    "@wdio/mocha-framework": "^9.0.0",
+    "@wdio/spec-reporter": "^9.0.0",
+    "allure-commandline": "^2.29.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}
