@@ -2,12 +2,12 @@ import { scrollToText } from '../core/scroll';
 
 class ProductsScreen {
   get title() { return $('~test-PRODUCTS'); }
-  get firstAddToCartBtn() { return $('~test-ADD TO CART'); } // first visible
+  get firstAddToCartBtn() { return $('~test-ADD TO CART'); } // first "ADD TO CART" button
   get cartIcon() { return $('~test-Cart'); }
 
   // Item title elements usually use this id on the sample app
   itemTitleByText(name: string) {
-    // Many builds expose item title as accessibility text.
+    // Build expose item title as accessibility text.
     // This predicate keeps it flexible.
     return $(`-ios predicate string:name == "${name}" OR label == "${name}"`);
   }

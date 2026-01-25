@@ -1,5 +1,5 @@
 class CartScreen {
-  get title() { return $('~test-Cart'); } // cart icon is same id; title sometimes differs per build
+  get title() { return $('~test-Cart'); } // cart title
   get checkoutBtn() { return $('~test-CHECKOUT'); }
 
   itemNameByText(name: string) {
@@ -11,7 +11,7 @@ class CartScreen {
 
 
   async waitForLoaded() {
-    // A safe check is that CHECKOUT button is visible in cart
+    // Wait for cart title to appear
     await this.checkoutBtn.waitForDisplayed({ timeout: 120000 });
   }
 
