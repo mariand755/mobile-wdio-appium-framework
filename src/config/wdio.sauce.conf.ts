@@ -1,4 +1,9 @@
 import { config as shared } from './wdio.shared.conf';
+import type { Options } from '@wdio/types';
+
+type SauceConfig = Options.Testrunner & {
+  capabilities: Array<Record<string, unknown>>;
+};
 
 /**
  * Sauce config enables running the same tests in the cloud with a simple script switch.
@@ -28,7 +33,7 @@ const commonSauceOptions = {
   idleTimeout: 180,
 };
 
-export const config: WebdriverIO.Config = {
+export const config: SauceConfig = {
   ...shared,
   
   user: SAUCE_USERNAME,

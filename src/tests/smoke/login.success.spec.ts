@@ -8,3 +8,4 @@ describe('Login - Smoke', () => {
     await ProductsScreen.waitForLoaded();
   });
 });
+

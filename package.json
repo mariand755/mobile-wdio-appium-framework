@@ -2,6 +2,7 @@
   "name": "mobile-wdio-appium-framework",
   "version": "0.1.0",
   "private": true,
+  "license": "GPL-3.0-or-later",
   "description": "WDIO v9 + Appium v2 + TypeScript + Mocha + Allure + Docker + Sauce Labs",
   "engines": {
     "node": ">=20 <21"
@@ -25,6 +26,8 @@
   "report:open": "allure open ./reports/allure-report",
 
   "docker:android:local": "docker build -t wdio-appium-android-local -f docker/Dockerfile . && docker run --name wdio-android-local --rm -it -e ADB_SERVER_SOCKET=tcp:host.docker.internal:5037 -e ANDROID_ADB_SERVER_PORT=5037 -v \"$PWD\":/work -v \"$PWD/docker/.workdir\":/work/docker/.workdir -w /work wdio-appium-android-local bash -lc \"bash ./docker/run-android-local.sh\"",
+  "docker:android:local:regression": "docker build -t wdio-appium-android-local -f docker/Dockerfile . && docker run --name wdio-android-local --rm -it -e ADB_SERVER_SOCKET=tcp:host.docker.internal:5037 -e ANDROID_ADB_SERVER_PORT=5037 -v \"$PWD\":/work -v \"$PWD/docker/.workdir\":/work/docker/.workdir -w /work wdio-appium-android-local bash -lc \"bash ./docker/run-android-local.sh --suite regression\"",
+  "docker:android:local:login-negative": "docker build -t wdio-appium-android-local -f docker/Dockerfile . && docker run --name wdio-android-local --rm -it -e ADB_SERVER_SOCKET=tcp:host.docker.internal:5037 -e ANDROID_ADB_SERVER_PORT=5037 -v \"$PWD\":/work -v \"$PWD/docker/.workdir\":/work/docker/.workdir -w /work wdio-appium-android-local bash -lc \"bash ./docker/run-android-local.sh --spec ./src/tests/regression/login.negative.spec.ts\"",
 
   "docker:report:generate": "docker build -t wdio-allure-report -f docker/Dockerfile.report . && docker run --rm -it -v \"$PWD\":/work -w /work wdio-allure-report bash -lc \"allure generate ./allure-results --clean -o ./reports/allure-report\"",
   "docker:report:open": "docker build -t wdio-allure-report -f docker/Dockerfile.report . && docker run --rm -it -p 5050:5050 -v \"$PWD\":/work -w /work wdio-allure-report bash -lc \"allure open -h 0.0.0.0 -p 5050 ./reports/allure-report\"",
