@@ -24,8 +24,8 @@
     // Allows clean imports from CommonJS packages where needed.
     "esModuleInterop": true,
 
-    // WDIO uses global `browser` and `$` helpers, but we still keep TS aware of Node types.
-    "types": ["node"],
+    // WDIO test files rely on Node, WDIO globals, and Mocha globals such as describe/it.
+    "types": ["node", "@wdio/globals/types", "@wdio/mocha-framework"],
 
     // We run TS directly; no output directory is required in this phase.
     "noEmit": true,

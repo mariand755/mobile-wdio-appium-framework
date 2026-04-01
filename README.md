@@ -10,6 +10,17 @@ A production‑grade mobile automation framework built with WebdriverIO v9, Appi
 
 This framework is designed to mirror real‑world mobile QE setups:
 
+QA strategy and execution plan are documented in [docs/decision-log.md](docs/decision-log.md).
+Public QA governance model is documented in [docs/qa-governance.md](docs/qa-governance.md).
+
+Quality docs index:
+- CI/CD runbook: [docs/ci-cd-runbook.md](docs/ci-cd-runbook.md)
+- Flaky test policy: [docs/flaky-test-policy.md](docs/flaky-test-policy.md)
+- Defect triage SOP: [docs/defect-triage.md](docs/defect-triage.md)
+- Test data and environment policy: [docs/test-data-and-env.md](docs/test-data-and-env.md)
+- Release quality gates: [docs/release-quality-gates.md](docs/release-quality-gates.md)
+- Quality metrics: [docs/quality-metrics.md](docs/quality-metrics.md)
+
 ---
 
 ## 🧱 Tech Stack
@@ -54,7 +65,7 @@ Local Machine Setup:
    * Node.js >= 20 <21
    * Docker Desktop
    * Android Studio + Emulator (Pixel / Google API)
-> ⚠️ Xcode is **not required** unless you plan to run iOS locally. Sauce Labs handles iOS cloud execution.
+> ⚠️ Xcode is **not required** unless you want to run iOS locally. Sauce Labs handles iOS cloud execution.
 
 ---
 
@@ -78,6 +89,7 @@ Upload apps to Sauce storage and reference them as:
 Edit `.env` with your Sauce Labs credentials and desired device/platform versions
 * SAUCE_USERNAME=your_username
 * SAUCE_ACCESS_KEY=your_access_key
+* ENABLE_SAUCE_JOB_RESULT=false
 
 * SAUCE_ANDROID_DEVICE=Google Pixel 6 GoogleAPI Emulator
 * SAUCE_ANDROID_PLATFORM_VERSION=13
@@ -85,12 +97,61 @@ Edit `.env` with your Sauce Labs credentials and desired device/platform version
 * SAUCE_IOS_DEVICE=iPhone 14 Simulator
 * SAUCE_IOS_PLATFORM_VERSION=16
 
+Set `ENABLE_SAUCE_JOB_RESULT=true` only when you explicitly want to report pass/fail back to Sauce from test hooks.
+When enabled, the framework performs a credential health check against Sauce API before publishing job results and skips publishing if credentials are invalid/expired.
+
 ---
 
 ## ▶️ Running Tests
 Android – Local (Docker + Emulator)
+
+Run all local Android tests directly with Docker
+```bash
+docker build -t wdio-appium-android-local -f docker/Dockerfile . && \
+docker run --name wdio-android-local --rm -it \
+   -e ADB_SERVER_SOCKET=tcp:host.docker.internal:5037 \
+   -e ANDROID_ADB_SERVER_PORT=5037 \
+   -v "$PWD":/work \
+   -v "$PWD/docker/.workdir":/work/docker/.workdir \
+   -w /work \
+   wdio-appium-android-local \
+   bash -lc "bash ./docker/run-android-local.sh"
+```
+> Builds the runner image, starts Appium inside Docker, and connects to your local emulator via ADB.
+
+Run local Android regression suite
+```bash
+docker build -t wdio-appium-android-local -f docker/Dockerfile . && \
+docker run --name wdio-android-local --rm -it \
+   -e ADB_SERVER_SOCKET=tcp:host.docker.internal:5037 \
+   -e ANDROID_ADB_SERVER_PORT=5037 \
+   -v "$PWD":/work \
+   -v "$PWD/docker/.workdir":/work/docker/.workdir \
+   -w /work \
+   wdio-appium-android-local \
+   bash -lc "bash ./docker/run-android-local.sh --suite regression"
+```
+> Runs only the regression suite through the Docker-based Android local path.
+
+Run local Android single spec
+```bash
+docker build -t wdio-appium-android-local -f docker/Dockerfile . && \
+docker run --name wdio-android-local --rm -it \
+   -e ADB_SERVER_SOCKET=tcp:host.docker.internal:5037 \
+   -e ANDROID_ADB_SERVER_PORT=5037 \
+   -v "$PWD":/work \
+   -v "$PWD/docker/.workdir":/work/docker/.workdir \
+   -w /work \
+   wdio-appium-android-local \
+   bash -lc "bash ./docker/run-android-local.sh --spec ./src/tests/regression/login.negative.spec.ts"
+```
+> Runs the negative login regression spec through Docker against your local Android emulator.
+
+Shortcuts
 * `npm run docker:android:local`
-> Starts Appium inside Docker and connects to your local emulator via ADB.
+* `npm run docker:android:local:regression`
+* `npm run docker:android:local:login-negative`
+> These npm scripts are only wrappers around the direct Docker commands above.
 
 ---
 
@@ -162,4 +223,4 @@ This repo is intentionally structured to reflect SDET best practices:
 ---
 
 ## 📝 License
-Do not distribute or use this code without permission.
+This project is licensed under the GNU GPL v3. See the [LICENSE](LICENSE) file for the full text.

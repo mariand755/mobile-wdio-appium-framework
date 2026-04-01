@@ -38,5 +38,5 @@ until curl -s http://127.0.0.1:4723/status >/dev/null; do
 done
 
 echo "Running Android local tests..."
-"$WORKDIR_IN_CONTAINER/node_modules/.bin/wdio" run ./src/config/wdio.android.local.conf.ts
+"$WORKDIR_IN_CONTAINER/node_modules/.bin/wdio" run ./src/config/wdio.android.local.conf.ts "$@"
 

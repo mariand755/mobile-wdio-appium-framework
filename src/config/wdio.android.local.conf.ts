@@ -1,4 +1,9 @@
 import { config as shared } from './wdio.shared.conf';
+import type { Options } from '@wdio/types';
+
+type AndroidLocalConfig = Options.Testrunner & {
+  capabilities: Array<Record<string, unknown>>;
+};
 
 /**
  * Android-local config is designed for running against an Android Emulator on your machine,
@@ -11,7 +16,7 @@ import { config as shared } from './wdio.shared.conf';
  *
  * This file is where you tune deviceName/udid and app path for local development.
  */
-export const config: WebdriverIO.Config = {
+export const config: AndroidLocalConfig = {
   ...shared,
   hostname: '127.0.0.1',
   port: 4723,
