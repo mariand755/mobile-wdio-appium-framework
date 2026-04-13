@@ -5,7 +5,7 @@ Operational guide for running, diagnosing, and recovering CI test runs in this r
 
 ## Current Reality
 - CI workflow: [.github/workflows/mobile-tests.yml](../.github/workflows/mobile-tests.yml)
-- Trigger: `workflow_dispatch` only.
+- Triggers: `workflow_dispatch` and nightly `schedule` (03:00 UTC).
 - Primary CI path: Sauce Labs run via `npm run test:sauce`.
 - Report outputs:
   - `allure-results` artifact

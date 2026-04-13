@@ -5,6 +5,7 @@ import type { Options } from '@wdio/types';
 dotenv.config();
 
 let sauceCredentialHealthCache: boolean | null = null;
+let sauceCredentialWarningLogged = false;
 
 async function hasValidSauceCredentials(): Promise<boolean> {
   if (sauceCredentialHealthCache !== null) {
@@ -15,6 +16,12 @@ async function hasValidSauceCredentials(): Promise<boolean> {
   const accessKey = process.env.SAUCE_ACCESS_KEY || '';
   if (!username || !accessKey) {
     sauceCredentialHealthCache = false;
+    if (!sauceCredentialWarningLogged) {
+      console.warn(
+        '[Sauce preflight] Missing SAUCE_USERNAME/SAUCE_ACCESS_KEY; skipping sauce:job-result publishing.',
+      );
+      sauceCredentialWarningLogged = true;
+    }
     return false;
   }
 
@@ -34,9 +41,21 @@ async function hasValidSauceCredentials(): Promise<boolean> {
     });
 
     sauceCredentialHealthCache = response.ok;
+    if (!response.ok && !sauceCredentialWarningLogged) {
+      console.warn(
+        `[Sauce preflight] Credential health check failed (${response.status}); skipping sauce:job-result publishing.`,
+      );
+      sauceCredentialWarningLogged = true;
+    }
     return sauceCredentialHealthCache;
   } catch {
     sauceCredentialHealthCache = false;
+    if (!sauceCredentialWarningLogged) {
+      console.warn(
+        '[Sauce preflight] Credential health check request failed; skipping sauce:job-result publishing.',
+      );
+      sauceCredentialWarningLogged = true;
+    }
     return false;
   }
 }
