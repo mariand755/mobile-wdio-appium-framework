@@ -36,6 +36,30 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Preflight Sauce credentials
+        shell: bash
+        run: |
+          missing=0
+          if [[ -z "${SAUCE_USERNAME}" ]]; then
+            echo "::error::Missing required secret SAUCE_USERNAME"
+            missing=1
+          fi
+          if [[ -z "${SAUCE_ACCESS_KEY}" ]]; then
+            echo "::error::Missing required secret SAUCE_ACCESS_KEY"
+            missing=1
+          fi
+          if [[ -z "${SAUCE_ANDROID_APP}" ]]; then
+            echo "::warning::SAUCE_ANDROID_APP is empty; default app reference from Sauce config will be used"
+          fi
+          if [[ -z "${SAUCE_IOS_APP}" ]]; then
+            echo "::warning::SAUCE_IOS_APP is empty; default app reference from Sauce config will be used"
+          fi
+
+          if [[ "$missing" -eq 1 ]]; then
+            echo "::error::Sauce preflight failed. Add repository secrets and re-run the workflow."
+            exit 1
+          fi
+
       - name: Run Sauce Labs tests
         run: npm run test:sauce
 
