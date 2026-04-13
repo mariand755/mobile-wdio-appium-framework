@@ -14,6 +14,7 @@ jobs:
       SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
       SAUCE_ANDROID_APP: ${{ secrets.SAUCE_ANDROID_APP }}
       SAUCE_IOS_APP: ${{ secrets.SAUCE_IOS_APP }}
+      SAUCE_TEST_RETRY_COUNT: ${{ github.event_name == 'schedule' && '2' || '1' }}
       # Optional device overrides if you want them fixed in CI:
       # SAUCE_ANDROID_DEVICE: "Google Pixel 7 GoogleAPI Emulator"
       # SAUCE_ANDROID_PLATFORM_VERSION: "14"

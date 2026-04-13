@@ -25,6 +25,11 @@ const buildName =
     ? `gh-${process.env.GITHUB_RUN_ID}`
     : `local-${new Date().toISOString()}`;
 
+const sauceTestRetryCount = Math.max(
+  0,
+  Number.parseInt(process.env.SAUCE_TEST_RETRY_COUNT || '1', 10) || 0,
+);
+
 const commonSauceOptions = {
   build: buildName,
   tags: process.env.GITHUB_REF_NAME ? [process.env.GITHUB_REF_NAME] : ['local'],
@@ -35,6 +40,12 @@ const commonSauceOptions = {
 
 export const config: SauceConfig = {
   ...shared,
+
+  // Test-level retry (Mocha) for transient UI/device failures in Sauce runs.
+  mochaOpts: {
+    ...(shared.mochaOpts || {}),
+    retries: sauceTestRetryCount,
+  },
   
   user: SAUCE_USERNAME,
   key: SAUCE_ACCESS_KEY,

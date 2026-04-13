@@ -74,6 +74,11 @@ Standard triage flow:
 3. Create/attach ticket with owner and SLA.
 4. Re-run only when needed for classification confidence.
 
+Retry guidance:
+- Distinguish infrastructure retries (WebDriver/Sauce connection retries) from framework test retries.
+- Allow limited test-level retry in Sauce for transient confidence checks.
+- Do not treat "passed on retry" as a clean pass; track as potential flake until stabilized.
+
 Escalate when:
 - Critical path repeatedly fails in PR gate.
 - Regression failure affects release-critical scope.

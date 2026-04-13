@@ -20,6 +20,12 @@ A test is flaky when it passes and fails across repeated runs without meaningful
   - page source
   - runtime context (device/platform/env)
 
+## Retry Guardrails
+- Framework test retries are allowed only for transient classification confidence.
+- Current Sauce default is one Mocha retry (`SAUCE_TEST_RETRY_COUNT=1`).
+- Retries must not be used to hide persistent product failures.
+- Failure reporting should include initial failure and final retry disposition.
+
 ## Containment Policy
 - Mark as flaky with an explicit owner.
 - Remove from strict release gating only when justified.

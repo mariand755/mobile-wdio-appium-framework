@@ -11,6 +11,20 @@ Operational guide for running, diagnosing, and recovering CI test runs in this r
   - `allure-results` artifact
   - `reports/allure-report` artifact
 
+Retry behavior:
+- `connectionRetryCount`/`connectionRetryTimeout` handle WebDriver transport retries to Sauce.
+- Mocha test retries in Sauce are controlled by `SAUCE_TEST_RETRY_COUNT` (default `1`).
+- A retry pass should still be reviewed for flaky classification.
+
+Stage retry policy:
+- PR smoke gate: `SAUCE_TEST_RETRY_COUNT=1`
+- Nightly regression: `SAUCE_TEST_RETRY_COUNT=2`
+- Release hardening gate: `SAUCE_TEST_RETRY_COUNT=1` (or `0` for strict mode)
+
+CI override guidance:
+- Keep repository default at `1` in config for safe baseline behavior.
+- Set stage-specific retry count through workflow/job environment variables.
+
 ## Preconditions
 - GitHub repository secrets are set:
   - `SAUCE_USERNAME`
