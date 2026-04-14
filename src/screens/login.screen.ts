@@ -23,8 +23,13 @@ class LoginScreen extends BaseScreen {
   }
 
   async login(username: string, password: string) {
+    // WDIO's $() returns a chainable wrapper that behaves like Element at runtime.
+    // TypeScript's strict types flag this as incompatible, but it works correctly.
+    // @ts-expect-error WDIO chainable type mismatch
     await this.type(this.usernameField, username);
+    // @ts-expect-error WDIO chainable type mismatch
     await this.type(this.passwordField, password);
+    // @ts-expect-error WDIO chainable type mismatch
     await this.tap(this.loginButton);
   }
 }
