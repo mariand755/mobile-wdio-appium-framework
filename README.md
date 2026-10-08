@@ -223,4 +223,7 @@ This repo is intentionally structured to reflect SDET best practices:
 ---
 
 ## 📝 License
+
+Copyright (C) 2026 Marian Dadzie
+
 This project is licensed under the GNU GPL v3. See the [LICENSE](LICENSE) file for the full text.
